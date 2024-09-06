@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework_simplejwt',
     'django_filters',
+    'corsheaders',
     
     'cart',
     'categories',
@@ -52,6 +53,7 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',  # Thêm dòng này
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -60,6 +62,31 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'server.urls'
+
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:5173",  # URL của frontend
+]
+
+CORS_ALLOW_CREDENTIALS = True  # Cho phép gửi cookie hoặc các headers đặc biệt
+
+CORS_ALLOW_METHODS = [
+    "GET",
+    "OPTIONS",
+    "POST",
+    "PUT",
+    "DELETE",
+]
+
+CORS_ALLOW_HEADERS = [
+    "Authorization",
+    "Content-Type",
+    "X-CSRFToken",
+    "Accept",
+    "Origin",
+    "Access-Control-Allow-Headers",
+    "Access-Control-Allow-Origin",
+    "token",  # Thêm header token vào đây
+]
 
 TEMPLATES = [
     {
@@ -133,10 +160,14 @@ REST_FRAMEWORK = {
 from datetime import timedelta
 
 SIMPLE_JWT = {
-    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=5),  # Thời gian sống của token truy cập
-    'REFRESH_TOKEN_LIFETIME': timedelta(days=1),    # Thời gian sống của token làm mới
-    'ROTATE_REFRESH_TOKENS': True,
+    'USER_ID_FIELD': 'user_id',
+    'USER_ID_CLAIM': 'user_id',
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=60),
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
+    'ROTATE_REFRESH_TOKENS': False,
     'BLACKLIST_AFTER_ROTATION': True,
+    'AUTH_HEADER_TYPES': ('Bearer',),
+    'AUTH_TOKEN_CLASSES': ('rest_framework_simplejwt.tokens.AccessToken',),
 }
 # Internationalization
 # https://docs.djangoproject.com/en/5.1/topics/i18n/
