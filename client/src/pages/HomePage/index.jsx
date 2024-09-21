@@ -1,25 +1,27 @@
-import React from 'react'
+import React, { useState } from 'react'
 //Images
 import {
   banner1,
   banner2,
   banner3,
-  cat_banner,
-  dog_banner
 } from '../../assets'
 // Components
 import {
-  BlogItem,
   ProductItem,
   Slider,
 } from '../../components'
 import Banner from '../../components/Banner'
+import { useQuery } from '@tanstack/react-query'
+import { getAllProducts } from '../../services/ProductServices'
 
 const HomePage = () => {
-  const arr = [null, null, null, null, null]
-  const arr2 = [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null]
-  const arr3 = [null, null, null]
-  const arr4 = [null, null, null, null, null, null]
+  const page_size = 5;
+  const queryProducts = useQuery({
+    queryKey: ['products', { page_size: page_size }],
+    queryFn: getAllProducts,
+    onError: (error) => console.error('Error fetching products:', error),
+  });
+  const data = queryProducts?.data?.results
   return (
     <div className='relative'>
       <div className="">
@@ -30,21 +32,23 @@ const HomePage = () => {
             <a className='text-main font-[500] underline' href="">Xem thêm</a>
           </div>
           <div className="grid grid-cols-10 gap-4">
-            {arr.map((product, index) => {
+            {data?.map((product, index) => {
               return (
-                <ProductItem key={index} />
+                <div key={index} className="col-span-2">
+                  <ProductItem data={product}/>
+                </div>
               )
             })}
           </div>
         </div>
         <div className="mt-[40px]">
-          <Banner background={banner1} title={"Đồ chạy bộ"} des={"Mua 2 bất kỳ giảm thêm 5%"}/>
+          <Banner background={banner1} title={"Đồ chạy bộ"} des={"Mua 2 bất kỳ giảm thêm 5%"} />
         </div>
         <div className="mt-[40px]">
-          <Banner background={banner2} title={"MẶC HÀNG NGÀY"} des={"Giảm thêm 10% khi mua từ 2 sản phẩm bất kỳ"}/>
+          <Banner background={banner2} title={"MẶC HÀNG NGÀY"} des={"Giảm thêm 10% khi mua từ 2 sản phẩm bất kỳ"} />
         </div>
         <div className="mt-[40px]">
-          <Banner background={banner3} title={"Quần lót"} des={"Tặng 01 Túi Tote Canvas (một số sản phẩm)"}/>
+          <Banner background={banner3} title={"Quần lót"} des={"Tặng 01 Túi Tote Canvas (một số sản phẩm)"} />
         </div>
       </div>
     </div>

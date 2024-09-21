@@ -1,27 +1,28 @@
 import { Fragment, useEffect, useState } from 'react'
 import { Routes, Route } from 'react-router-dom';
-import axios from 'axios'
-import dotenv from 'dotenv'
+import { jwtDecode } from 'jwt-decode';
+import { useDispatch, useSelector } from 'react-redux';
 
-import { publicRoutes } from './routes';
-import { MainLayout } from './components/layouts';
-import { useQuery } from '@tanstack/react-query';
+import { privateRoutes, publicRoutes } from './routes';
 import helpers from './utils/helper';
 import * as UserService from '../src/services/UserService';
-import { jwtDecode } from 'jwt-decode';
-import { useDispatch } from 'react-redux';
 import { updateUser } from './redux/userSlice';
+
+import { MainLayout } from './components/layouts';
+import AdminLayout from './components/layouts/AdminLayout';
+import { LoadingPage } from './components';
 
 
 function App() {
+  const user = useSelector((state) => state?.user);
   const dispatch = useDispatch();
-
-  
+  const [loading, setLoading] = useState(true);
   useEffect(() => {
-    const { decoded, storageData } = handleDecode()
-
+    const { decoded, storageData } = handleDecode();
     if (decoded?.user_id) {
-      handleGetUserDetails(decoded?.user_id, storageData)
+      handleGetUserDetails(decoded?.user_id, storageData);
+    } else {
+      setLoading(false); 
     }
   }, []);
   UserService.axiosJwt.interceptors.request.use(async (config) => {
@@ -35,12 +36,18 @@ function App() {
   }, (error) => {
     return Promise.reject(error);
   });
+ 
   const handleGetUserDetails = async (id, token) => {
-    const res = await UserService.getDetailUser(id, token)
-    console.log(res);
-    
-    dispatch(updateUser({ ...res, accessToken: token }))
-  }
+    try {
+      const res = await UserService.getDetailUser(id, token);
+      dispatch(updateUser({ ...res, accessToken: token }));
+    } catch (error) {
+      console.error(error);
+      dispatch(updateUser(null)); 
+    } finally {
+      setLoading(false); 
+    }
+  };
   const handleDecode = () => {
     let storageData = localStorage.getItem('accessToken')
     let decoded = {}
@@ -50,13 +57,9 @@ function App() {
     }
     return { decoded, storageData }
   }
-  // const fetchData = async () => {
-  //   const res = await axios.get(`${import.meta.env.VITE_API}/get-products`);
-  //   return res.data
-  // };
-  // const query = useQuery({ queryKey: ['todos'], queryFn: fetchData })
-
-
+  if (loading) {
+    return <LoadingPage />; 
+  }
   return (
     <>
       <Routes>
@@ -79,6 +82,29 @@ function App() {
             />
           )
         })}
+        {user?.role === "admin" || user?.role === "subadmin" ?
+          privateRoutes.map((route, index) => {
+            const Page = route.component;
+            let Layout = AdminLayout
+            if (route.layout)
+              Layout = route.layout
+            else if (route.layout === null)
+              Layout = Fragment
+            return (
+              <Route
+                key={index}
+                path={route.path}
+                element={
+                  <Layout>
+                    <Page />
+                  </Layout>
+                }
+              />
+            )
+          }) :
+          <></>
+        }
+
       </Routes>
     </>
   )

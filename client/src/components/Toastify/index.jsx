@@ -1,13 +1,9 @@
-import React, { Fragment, useEffect, useMemo } from 'react'
+import React, { useEffect } from 'react'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 const Toastify = ({ status, content }) => {
     const notify = () => toast[status](content);
-    useEffect(() => {
-        if (status) {
-            notify()
-        }
-    }, [status])
+    notify()
     return (
         <ToastContainer
             position="top-center"

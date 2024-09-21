@@ -73,19 +73,21 @@ def getProductDetail(request, product_id):
 @permission_classes([AllowAny])
 def getAllProducts(request):
     products = Product.objects.all()
-    
     # Apply filters
     filterset = ProductFilter(request.GET, queryset=products)
     if not filterset.is_valid():
         return Response(filterset.errors, status=status.HTTP_400_BAD_REQUEST)
     
     products = filterset.qs
-
+    # Đảo ngược theo `created_at` mặc định nếu không có `order_by`
+    if not request.GET.get('order_by'):
+        products = products.order_by('-created_at')  # Đảo ngược theo ngày tạo
+    # Get the page size from query parameters, default to 4 if not provided
+    page_size = int(request.GET.get('page_size', 4))
+    
     # Apply pagination
     paginator = PageNumberPagination()
-    paginator.page_size = 3  # Số sản phẩm trên mỗi trang
-
+    paginator.page_size = page_size  # Set the page size from query parameters
     result_page = paginator.paginate_queryset(products, request)
     serializer = ProductSerializer(result_page, many=True)
     return paginator.get_paginated_response(serializer.data)
-

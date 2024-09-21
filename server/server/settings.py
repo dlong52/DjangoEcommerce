@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
 from pathlib import Path
+from datetime import timedelta
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -39,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     
     'rest_framework',
+    'rest_framework.authtoken',
     'rest_framework_simplejwt',
     'django_filters',
     'corsheaders',
@@ -48,6 +50,7 @@ INSTALLED_APPS = [
     'product',
     'orders',
     'user',
+    'collection',
 ]
 
 MIDDLEWARE = [
@@ -64,9 +67,8 @@ MIDDLEWARE = [
 ROOT_URLCONF = 'server.urls'
 
 CORS_ALLOWED_ORIGINS = [
-    "http://localhost:5173",  # URL của frontend
+    "http://localhost:5173",  
 ]
-
 CORS_ALLOW_CREDENTIALS = True  # Cho phép gửi cookie hoặc các headers đặc biệt
 
 CORS_ALLOW_METHODS = [
@@ -85,7 +87,8 @@ CORS_ALLOW_HEADERS = [
     "Origin",
     "Access-Control-Allow-Headers",
     "Access-Control-Allow-Origin",
-    "token",  # Thêm header token vào đây
+    "token", 
+    "Cookie",
 ]
 
 TEMPLATES = [
@@ -118,7 +121,6 @@ DATABASES = {
         'PASSWORD': '181006',
         'HOST': 'localhost',
         'PORT': '3309',
-
     }
 }
 
@@ -141,11 +143,10 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+# SIMPLE_JWT = {
+#     'AUTH_HEADER_TYPES': ('Bearer',),
+# }
 REST_FRAMEWORK = {
-    # 'DEFAULT_AUTHENTICATION_CLASSES': [
-    #     'rest_framework.authentication.BasicAuthentication',
-    #     'rest_framework.authentication.SessionAuthentication',
-    # ],
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     ),
@@ -153,22 +154,18 @@ REST_FRAMEWORK = {
         'rest_framework.permissions.IsAuthenticated',
     ),
 }
-
-# SIMPLE_JWT = {
-#     'AUTH_HEADER_TYPES': ('Bearer',),
-# }
-from datetime import timedelta
-
 SIMPLE_JWT = {
     'USER_ID_FIELD': 'user_id',
     'USER_ID_CLAIM': 'user_id',
-    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=60),
+    'ACCESS_TOKEN_LIFETIME': timedelta(days=60),
     'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
     'ROTATE_REFRESH_TOKENS': False,
     'BLACKLIST_AFTER_ROTATION': True,
-    'AUTH_HEADER_TYPES': ('Bearer',),
+    'AUTH_HEADER_TYPES': ('Bearer ',),
     'AUTH_TOKEN_CLASSES': ('rest_framework_simplejwt.tokens.AccessToken',),
+    'UPDATE_LAST_LOGIN': False,
 }
+
 # Internationalization
 # https://docs.djangoproject.com/en/5.1/topics/i18n/
 

@@ -3,6 +3,8 @@ import * as UserService from '../../services/UserService'
 import { useMutationHook } from '../../hooks/useMutationHook'
 import LayzyLoad from '../../components/LazyLoad'
 import Toastify from '../../components/Toastify'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faArrowLeft } from '@fortawesome/free-solid-svg-icons'
 
 const SignUpPage = () => {
   const [username, setUserName] = useState("")
@@ -51,11 +53,13 @@ const SignUpPage = () => {
 
   return (
     <div className="py-16 bg-slate-100 min-h-screen">
-      <Toastify status={toastifyData.status} content={toastifyData.message} />
       <div className="flex bg-white rounded-lg shadow-brand overflow-hidden mx-auto max-w-sm lg:max-w-4xl">
-        <div className="hidden lg:block lg:w-1/2 bg-cover"
-          style={{ background: `url(${"https://paddy.vn/cdn/shop/files/e93086d75d688236db79_8a450b47-984d-4ee6-b87b-1b5d6e6f626a.jpg?v=1708309641"})`, backgroundPosition: "center", backgroundSize: "auto 100%", backgroundRepeat: "no-repeat" }}
+        <div className="hidden lg:block lg:w-1/2 bg-cover relative"
+          style={{ background: `url(${"https://cdn.techinasia.com/wp-content/uploads/2022/09/1662307723_coolmate.jpeg"})`, backgroundPosition: "center", backgroundSize: "auto 100%", backgroundRepeat: "no-repeat" }}
         >
+          <a href="/" className=' absolute top-2 left-2 size-[40px] bg-white rounded-full flex items-center justify-center'>
+            <FontAwesomeIcon className=' absolute' icon={faArrowLeft} />
+          </a>
         </div>
         <div className="w-full p-8 lg:w-1/2">
           <h2 className="text-2xl font-semibold text-gray-700 text-center uppercase">đăng ký</h2>
@@ -103,7 +107,7 @@ const SignUpPage = () => {
             <button
               onClick={handleSignup}
               className={
-                `${(name && email && password && confirmPassword) ? "bg-main hover:bg-blue-500" : "bg-gray-500"} 
+                `${(username && email && password && confirmPassword) ? "bg-main hover:bg-blue-500" : "bg-gray-500"} 
                 flex items-center justify-center text-white font-bold h-[45px] w-full rounded`
               }
             >

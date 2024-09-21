@@ -6,8 +6,9 @@ import { useMutationHook } from '../../hooks/useMutationHook';
 import { useNavigate } from 'react-router-dom'
 
 import LayzyLoad from '../../components/LazyLoad';
-import Toastify from '../../components/Toastify';
 import { updateUser } from '../../redux/userSlice';
+import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 const SignInPage = () => {
   const [email, setEmail] = useState("");
@@ -39,12 +40,8 @@ const SignInPage = () => {
     if (toastifyData.status === 'success') {
       navigate('/')
       localStorage.setItem('accessToken', JSON.stringify(data?.access_token))
-      // console.log(data);
-      
       if (data?.access_token) {
         const decode = jwtDecode(data?.access_token)
-        // console.log("decode: ", decode);
-        
         if (decode?.user_id) {
           handleGetUserDetails(decode?.user_id, data?.access_token)
         }
@@ -53,24 +50,21 @@ const SignInPage = () => {
     }
   }, [toastifyData.status])
   const handleGetUserDetails = async (id, token) => {
-    console.log(id);
-    
     const res = await UserService.getDetailUser(id, token)
-    console.log("res", res);
-    
-    dispatch(updateUser({...res, accessToken: token}))
+    dispatch(updateUser({ ...res, accessToken: token }))
   }
   return (
     <div className="py-16 bg-slate-100 min-h-screen">
-      <Toastify status={toastifyData.status} content={toastifyData.message} />
       <div className="flex bg-white rounded-lg shadow-brand overflow-hidden mx-auto max-w-sm lg:max-w-4xl">
-        <div className="hidden lg:block lg:w-1/2 bg-cover"
-          style={{ background: `url(${"https://paddy.vn/cdn/shop/files/e93086d75d688236db79_8a450b47-984d-4ee6-b87b-1b5d6e6f626a.jpg?v=1708309641"})`, backgroundPosition: "center", backgroundSize: "auto 100%", backgroundRepeat: "no-repeat" }}
+        <div className="hidden lg:block lg:w-1/2 bg-cover relative"
+          style={{ background: `url(${"https://cdn.techinasia.com/wp-content/uploads/2022/09/1662307723_coolmate.jpeg"})`, backgroundPosition: "center", backgroundSize: "auto 100%", backgroundRepeat: "no-repeat" }}
         >
+          <a href="/" className=' absolute top-2 left-2 size-[40px] bg-white rounded-full flex items-center justify-center'>
+            <FontAwesomeIcon className=' absolute' icon={faArrowLeft} />
+          </a>
         </div>
         <div className="w-full p-8 lg:w-1/2">
-          <h2 className="text-2xl font-semibold text-gray-700 text-center">Paddy</h2>
-          <p className="text-xl text-gray-600 text-center">Welcome back!</p>
+          <h2 className="text-2xl font-semibold text-gray-700 text-center">Coolmate</h2>
           <a href="#" className="flex items-center justify-center mt-4 text-white rounded-lg shadow-md hover:bg-gray-100">
             <div className="px-4 py-3">
               <svg className="h-6 w-6" viewBox="0 0 40 40">
@@ -125,5 +119,4 @@ const SignInPage = () => {
     </div>
   )
 }
-
 export default SignInPage;

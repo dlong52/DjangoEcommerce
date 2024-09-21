@@ -13,6 +13,20 @@ import {
     SignUpPage
 } from "../pages"
 
+import {
+    HomePageAdmin,
+} from "../Admin"
+import ProductAdminPage from "../Admin/ProductAdminPage"
+import CategoryAdminPage from "../Admin/CategoryAdminPage"
+import OrderAdminPage from "../Admin/OrderAminPage"
+import UserAdminPage from "../Admin/UserAdminPage"
+import CollectionAdminPage from "../Admin/CollectionAdminPage"
+import NoFooterLayout from "../components/layouts/NoFooterLayout"
+import OrderDetailAdminPage from "../Admin/OrderDetailAdminPage"
+import UserDetailAdminPage from "../Admin/UserDetailAdminPage"
+import ProductDetailAdminPage from "../Admin/ProductDetailAdminPage"
+import OrderDetailPage from "../pages/OrderDetailPage"
+
 const publicRoutes = [
     {
         path: "/",
@@ -23,12 +37,13 @@ const publicRoutes = [
         component: ShopPage
     },
     {
-        path: "/shop/:p-name",
+        path: "/shop/:p_id",
         component: ProductDetail
     },
     {
         path: "/cart",
-        component: CartPage
+        component: CartPage,
+        layout: NoFooterLayout
     },
     {
         path: "/profile",
@@ -46,10 +61,15 @@ const publicRoutes = [
         layout: ProfileLayout
     },
     {
+        path: "/profile/order/:order_id",
+        component: OrderDetailPage,
+        layout: ProfileLayout
+    },
+    {
         path: "/profile/notify",
         component: NotifyPage,
         layout: ProfileLayout
-    },{
+    }, {
         path: "/profile/order",
         component: OrderPage,
         layout: ProfileLayout
@@ -71,36 +91,100 @@ const publicRoutes = [
     }
 ]
 const privateRoutes = [
-
+    {
+        path: "/admin",
+        component: HomePageAdmin
+    },
+    {
+        path: "/admin/product",
+        component: ProductAdminPage
+    },
+    {
+        path: "/admin/product/:productId",
+        component: ProductDetailAdminPage
+    },
+    {
+        path: "/admin/category",
+        component: CategoryAdminPage
+    },
+    {
+        path: "/admin/collection",
+        component: CollectionAdminPage
+    },
+    {
+        path: "/admin/order",
+        component: OrderAdminPage
+    },
+    {
+        path: "/admin/order/:orderId",
+        component: OrderDetailAdminPage
+    },
+    {
+        path: "/admin/user",
+        component: UserAdminPage
+    },
+    {
+        path: "/admin/user/:userId",
+        component: UserDetailAdminPage
+    },
 ]
 const headerRoutes = [
     {
         path: "",
-        name: "Tất cả sản phẩm",
+        name: "FLASH SALE",
+    },
+    {
+        path: "/shop",
+        name: `Tất cả sản phẩm`,
+        dropdown: true,
+    },
+    {
+        path: "/shop#category=activewear",
+        name: "Đồ thể thao",
+    },
+    {
+        path: "/shop#category=casual",
+        name: "Mặc hàng ngày",
+    },
+    {
+        path: "/shop#category=underwear",
+        name: "Đồ lót",
     },
     {
         path: "",
-        name: "Áo thun",
-    },
-    {
-        path: "",
-        name: "Áo sơ mi",
-    },
-    {
-        path: "",
-        name: "Áo Polo",
-    },
-    {
-        path: "",
-        name: "Áo khoác",
-    },
-    {
-        path: "",
-        name: "Quần",
-    },
-    {
-        path: "",
-        name: "Phụ kiện",
+        name: "Nước hoa",
     },
 ]
-export { publicRoutes, privateRoutes, headerRoutes }
+const sidebarRouter = [
+    {
+        path: "/admin",
+        name: "Dashboard",
+        icon: <i className="fa-lg fa-solid fa-gauge-high"></i>
+    },
+    {
+        path: "/admin/product",
+        name: "Sản phẩm",
+        icon: <i className="fa-lg fa-solid fa-layer-group"></i>
+    },
+    {
+        path: "/admin/category",
+        name: "Danh mục",
+        icon: <i className="fa-solid fa-list fa-lg"></i>
+    },
+    {
+        path: "/admin/collection",
+        name: "Loại sản phẩm",
+        icon: <i className="fa-solid fa-shirt"></i>
+    },
+    {
+        path: "/admin/order",
+        name: "Đơn hàng",
+        icon: <i className="fa-lg fa-regular fa-rectangle-list"></i>
+    },
+    {
+        path: "/admin/user",
+        name: "Người dùng",
+        icon: <i className="fa-lg fa-regular fa-user"></i>
+    },
+]
+export { publicRoutes, privateRoutes, headerRoutes, sidebarRouter }

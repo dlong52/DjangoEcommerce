@@ -1,6 +1,8 @@
 // Logo
 export {default as logo} from './images/logo/logo.svg'
-export {default as banner} from './images/logo/banner.jpg'
+export {default as COD} from './images/logo/COD.svg'
+export {default as paypal} from './images/logo/paypal.svg'
+export {default as logoHz} from './images/logo/logoHz.png'
 
 // Icons
 export {default as cart} from './images/icons/cart.png'
@@ -11,6 +13,7 @@ export {default as search} from './images/icons/search.svg'
 export {default as share} from './images/icons/share.svg'
 export {default as right} from './images/icons/right.svg'
 export {default as left} from './images/icons/left.svg'
+export {default as cart_btn} from './images/icons/cart_btn.svg'
 
 export {default as return_0} from './images/icons/return.svg'
 export {default as return_60} from './images/icons/return-60.svg'
@@ -20,10 +23,13 @@ export {default as location} from './images/icons/location.svg'
 export {default as phone} from './images/icons/phone.svg'
 export {default as email} from './images/icons/email.svg'
 
-export {default as facebook} from './images/icons/facebook.svg'
+export {default as facebook} from './images/icons/facebook.png'
+export {default as excel} from './images/icons/excel.png'
 export {default as instagram} from './images/icons/instagram.svg'
-export {default as tiktok} from './images/icons/tiktok.svg'
+export {default as tiktok} from './images/icons/titok.png'
 export {default as google} from './images/icons/google.svg'
+export {default as youtube} from './images/icons/youtube.svg'
+export {default as zalo} from './images/icons/zalo.png'
 
 // Slider
 export {default as slide_1} from './images/sliders/slide_1.webp'

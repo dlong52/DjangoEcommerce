@@ -4,6 +4,7 @@ from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import AllowAny
 from rest_framework.decorators import api_view
 from .models import Category
+from product.models import Product
 from .serializers import CategorySerializer
 
 @api_view(['POST'])
@@ -25,9 +26,19 @@ def updateCategory(request, category_id):
 
     serializer = CategorySerializer(category, data=request.data)
     if serializer.is_valid():
+        # Check if the 'active' field is being updated
+        previous_active_status = category.active  # Lưu trạng thái 'active' trước khi update
         serializer.save()
+
+        # Sau khi Category được update, cập nhật Product liên quan nếu active thay đổi
+        new_active_status = serializer.data.get('active')
+        if previous_active_status != new_active_status:
+            # Cập nhật status cho tất cả các Product có category là Category này
+            Product.objects.filter(category=category).update(status=new_active_status)
+
         return Response(serializer.data)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
 
 @api_view(['DELETE'])
 @permission_classes([AllowAny])  
@@ -57,9 +68,8 @@ from rest_framework.pagination import PageNumberPagination
 def getAllCategories(request):
     categories = Category.objects.all()
     
-    # Pagination
     paginator = PageNumberPagination()
-    paginator.page_size = 10  # Số category trên mỗi trang, bạn có thể thay đổi giá trị này
+    paginator.page_size = 10  
 
     result_page = paginator.paginate_queryset(categories, request)
     serializer = CategorySerializer(result_page, many=True)

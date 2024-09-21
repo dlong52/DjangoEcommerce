@@ -1,32 +1,68 @@
-import { faDeleteLeft, faMinus, faPlus } from '@fortawesome/free-solid-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import React from 'react'
+import { faDeleteLeft, faMinus, faPlus } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import React from 'react';
+import helpers from '../../utils/helper';
+import { getDetailProduct } from '../../services/ProductServices';
+import { useQuery } from '@tanstack/react-query';
 
-const CartItem = () => {
+const CartItem = ({ data, onIncrease, onDecrease, onDelete, onUpdateSize }) => {
+    const queryProduct = useQuery({
+        queryKey: ['product', data?.product],
+        queryFn: () => getDetailProduct(data?.product),
+        enabled: !!data?.product
+    });
+
+    const sizes = queryProduct?.data?.sizes;
+
     return (
-        <tr className='h-[100px] w-fit bg-white text-footer'>
-            <td className='flex w-[400px] p-5'>
-                <img className='h-[100px]' src="https://paddy.vn/cdn/shop/files/thuc-an-cho-meo-royal-canin-indoor.jpg?v=1718875299" alt="" />
-                <div className="flex flex-col gap-y-1 ml-3">
-                    <h1 className='font-semibold text-[16px]'>Thức Ăn Hạt Cho Mèo Trưởng Thành Nuôi Trong Nhà Royal Canin Indoor 27</h1>
-                    <span>400g</span>
-                    <span>Royal Canin</span>
+        <tr className="h-[100px] bg-white text-footer border-b last:border-none">
+            <td className="flex items-center w-[350px] p-5">
+                <img className="w-[80px] object-cover rounded-md" src={data?.product_images[0]} alt={data?.product_name} />
+                <div className="flex flex-col gap-y-1 ml-4">
+                    <h1 className="font-semibold text-[14px] w-[200px] truncate">{data?.product_name}</h1>
+                    <div className="flex items-center gap-x-2">
+                        <label className='text-sm text-gray-500' htmlFor="">Size:</label>
+                        <select 
+                            name="size" 
+                            value={data?.size} 
+                            onChange={(e) => onUpdateSize(data, e.target.value)} 
+                            className="border border-gray-300 rounded-md px-2 py-1 text-sm"
+                        >
+                            {sizes?.map((size, i) => (
+                                <option value={size} key={i}>{size}</option>
+                            ))}
+                        </select>
+                    </div>
                 </div>
             </td>
-            <td className='p-5 text-[18px] font-semibold'>124.000₫</td>
-            <td className='p-5'>
-                <div className="flex justify-between items-center p-2">
-                    <FontAwesomeIcon icon={faMinus} />
-                    <span className='font-semibold'>1</span>
-                    <FontAwesomeIcon icon={faPlus} />
+            <td className="p-5 text-center">
+                <div className="flex justify-center items-center space-x-2">
+                    <FontAwesomeIcon 
+                        className="cursor-pointer text-gray-600 hover:text-black" 
+                        icon={faMinus} 
+                        onClick={() => onDecrease(data)} 
+                    />
+                    <span className="font-semibold text-lg">{data?.quantity}</span>
+                    <FontAwesomeIcon 
+                        className="cursor-pointer text-gray-600 hover:text-black" 
+                        icon={faPlus} 
+                        onClick={() => onIncrease(data)} 
+                    />
                 </div>
             </td>
-            <td className='p-5 text-[18px] font-semibold'>124.000₫</td>
-            <td className='p-5'>
-                <FontAwesomeIcon icon={faDeleteLeft} size='lg' />
+            <td className="p-5 text-[16px] font-semibold text-center">
+                {helpers.numberFormat(helpers.roundNumber(data?.product_price * (1 - data?.product_discount / 100)) * data?.quantity)}₫
+            </td>
+            <td className="p-5 text-center">
+                <FontAwesomeIcon
+                    className="cursor-pointer text-red-600 hover:text-red-800"
+                    icon={faDeleteLeft}
+                    size="lg"
+                    onClick={() => onDelete(data)}
+                />
             </td>
         </tr>
-    )
-}
+    );
+};
 
-export default CartItem
+export default CartItem;

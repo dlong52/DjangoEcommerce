@@ -1,65 +1,109 @@
 import React from 'react'
-import { email, facebook, instagram, logo, phone, tiktok } from '../../../../assets'
+import { email, facebook, instagram, logo, phone, tiktok, youtube, zalo } from '../../../../assets'
 
 const Footer = () => {
     return (
-        <div className='bg-slate-100 min-h-[300px] border-t-[3px] border-[#234bbb]'>
-            <div className="container mx-auto relative">
-                <div className="flex flex-col items-center py-[40px] gap-y-3">
-                    <h1 className="text-[25px] font-[700]">Thành viên Paddiers</h1>
-                    <p>Đăng ký thành viên ngay hôm nay để nhận email về sản phẩm mới và chương trình khuyến mãi của Paddy</p>
-                    <form className="flex gap-x-3">
-                        <input className='border h-[45px] rounded-[5px] min-w-[350px] pl-5' placeholder='Email của bạn...' type="text" />
-                        <button className='text-white bg-main h-[45px] rounded-[5px] px-5'>Đăng ký</button>
-                    </form>
+        <div className='bg-black min-h-[300px] text-white'>
+            <div className="container mx-auto flex flex-col gap-y-5">
+                <div className="grid grid-cols-12 py-6 gap-x-10">
+                    <div className="col-span-5 flex flex-col gap-y-4">
+                        <h1 className="text-[20px] font-bold">COOLMATE lắng nghe bạn!</h1>
+                        <span className='text-[14px] text-gray-400 font-medium'>Chúng tôi luôn trân trọng và mong đợi nhận được mọi ý kiến đóng góp từ khách hàng để có thể nâng cấp trải nghiệm dịch vụ và sản phẩm tốt hơn nữa.</span>
+                        <button className='bg-blue-700 text-white font-medium rounded-full py-2 px-4 w-fit text-[14px]'>Đóng góp ý kiến</button>
+                    </div>
+                    <div className="col-span-3 flex flex-col gap-y-4">
+                        <div className="flex gap-x-4">
+                            <img className='h-[30px]' src={phone} alt="" />
+                            <div className="flex flex-col">
+                                <span className='text-[14px] font-medium'>Hotline</span>
+                                <span className='font-semibold'>1900.272737 - 028.7777.2737 <br />(8:30 - 22:00)</span>
+                            </div>
+                        </div>
+                        <div className="flex gap-x-4">
+                            <img className='h-[30px]' src={email} alt="" />
+                            <div className="flex flex-col">
+                                <span className='text-[14px] font-medium'>Email</span>
+                                <span className='font-semibold'>Cool@coolmate.me</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="col-span-4 flex gap-x-6 items-center">
+                        <a href=""><img className='h-[45px]' src={facebook} alt="" /></a>
+                        <a href=""><img className='h-[45px]' src={zalo} alt="" /></a>
+                        <a href=""><img className='h-[45px]' src={tiktok} alt="" /></a>
+                        <a href=""><img className='h-[45px]' src={instagram} alt="" /></a>
+                        <a href=""><img className='h-[45px]' src={youtube} alt="" /></a>
+                    </div>
                 </div>
-                <div className="grid grid-cols-12 text-footer pb-[40px]">
-                    <div className="col-span-3">
-                        <span className='font-[700] text-[18px]'>Shop</span>
-                        <div className="flex flex-col gap-y-2 mt-3 text-[16px] font-[400]">
-                            <a href="">Dành cho chó</a>
-                            <a href="">Dành cho mèo</a>
-                            <a href="">Thương hiệu</a>
-                            <a href="">Blogs</a>
-                            <a href="">Bộ sưu tập</a>
+                <div className="grid grid-cols-10 py-6 border-t-[1px] border-gray-500">
+                    <div className="col-span-2 flex flex-col gap-y-6">
+                        <div className="flex flex-col gap-y-3">
+                            <span className='text-[16px] font-semibold'>COOLCLUB</span>
+                            <div className="text-[14px] font-medium text-gray-400 flex flex-col gap-y-2">
+                                <a href="">Đăng kí thành viên</a>
+                                <a href="">Ưu đãi & Đặc quyền</a>
+                            </div>
                         </div>
                     </div>
-                    <div className="col-span-3">
-                        <span className='font-[700] text-[18px]'>Paddy Pet Shop</span>
-                        <div className="flex flex-col gap-y-2 mt-3 text-[16px] font-[400]">
-                            <a href="">Giới thiệu</a>
-                            <a href="">Thành viên Paddier</a>
-                            <a href="">Điều khoản sử dụng tuyển dụng</a>
-                            <a href="">Tuyển dụng</a>
+                    <div className="col-span-2 flex flex-col gap-y-6">
+                        <div className="flex flex-col gap-y-3">
+                            <span className='text-[16px] font-semibold'>Chính sách</span>
+                            <div className="text-[14px] font-medium text-gray-400 flex flex-col gap-y-2">
+                                <a href="">Chính sách đổi trả 60 ngày</a>
+                                <a href="">Chính sách khuyến mãi</a>
+                                <a href="">Chính sách bảo mật</a>
+                                <a href="">Chính sách giao hàng</a>
+                            </div>
+                        </div>
+                        <div className="flex flex-col gap-y-3">
+                            <span className='text-[16px] font-semibold'>Coolmate.me</span>
+                            <div className="text-[14px] font-medium text-gray-400 flex flex-col gap-y-2">
+                                <a href="">Lịch sử thay đổi website</a>
+                            </div>
                         </div>
                     </div>
-                    <div className="col-span-3">
-                        <span className='font-[700] text-[18px]'>Hỗ trợ khách hàng</span>
-                        <div className="flex flex-col gap-y-2 mt-3 text-[16px] font-[400]">
-                            <a href="">Chính sách đổi trả</a>
-                            <a href="">Phương thức vận chuyển</a>
-                            <a href="">Chính sách bảo mật</a>
-                            <a href="">Phương thức thanh toán</a>
+                    <div className="col-span-2 flex flex-col gap-y-6">
+                        <div className="flex flex-col gap-y-3">
+                            <span className='text-[16px] font-semibold'>Chăm sóc khách hàng</span>
+                            <div className="text-[14px] font-medium text-gray-400 flex flex-col gap-y-2">
+                                <a href="">Trải nghiệm mua sắm 100% hài lòng</a>
+                                <a href="">Hỏi đáp - FAQs</a>
+                            </div>
+                        </div>
+                        <div className="flex flex-col gap-y-3">
+                            <span className='text-[16px] font-semibold'>Kiến thức mặc đẹp</span>
+                            <div className="text-[14px] font-medium text-gray-400 flex flex-col gap-y-2">
+                                <a href="">Hướng dẫn chọn size</a>
+                                <a href="">Blog</a>
+                            </div>
                         </div>
                     </div>
-                    <div className="col-span-3">
-                        <span className='font-[700] text-[18px]'>Liên hệ</span>
-                        <div className="flex flex-col gap-y-2 mt-3 text-[16px] font-[400]">
-                            <p>CÔNG TY CỔ PHẦN THUƠNG MẠI & DỊCH VỤ PADDY</p>
-                            <p>MST: 0316459054</p>
-                            <p>116 Nguyễn Văn Thủ, Phường Đa Kao, Quận 1, Thành phố Hồ Chí Minh, Việt Nam</p>
-                            <p>Hotline: 0867677891 </p>
-                            <p className='flex gap-1 items-center'>Email: marketing@paddy.vn</p>
-                            <div className="flex gap-2">
-                                <a className='w-[40px] aspect-square rounded-full bg-footer flex items-center justify-center' href="">
-                                    <img className='w-[18px] aspect-square fill-white' src={facebook} alt="" />
-                                </a>
-                                <a className='w-[40px] aspect-square rounded-full bg-footer flex items-center justify-center' href="">
-                                    <img className='w-[18px] aspect-square fill-white' src={instagram} alt="" />
-                                </a>
-                                <a className='w-[40px] aspect-square rounded-full bg-footer flex items-center justify-center' href="">
-                                    <img className='w-[18px] aspect-square fill-white' src={tiktok} alt="" />
-                                </a>
+                    <div className="col-span-2 flex flex-col gap-y-6">
+                        <div className="flex flex-col gap-y-3">
+                            <span className='text-[16px] font-semibold'>Tài liệu - Tuyển dụng</span>
+                            <div className="text-[14px] font-medium text-gray-400 flex flex-col gap-y-2">
+                                <a href="">Tuyển dụng</a>
+                                <a href="">Đăng ký bản quyền</a>
+                            </div>
+                        </div>
+                        <div className="flex flex-col gap-y-3">
+                            <span className='text-[16px] font-semibold'>Về COOLMATE</span>
+                            <div className="text-[14px] font-medium text-gray-400 flex flex-col gap-y-2">
+                                <a href="">Coolmate 101</a>
+                                <a href="">DVKH xuất sắc</a>
+                                <a href="">Câu chuyện về Coolmate</a>
+                                <a href="">Nhà máy</a>
+                                <a href="">Care & Share</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="col-span-2 flex flex-col gap-y-6">
+                        <div className="flex flex-col gap-y-3">
+                            <span className='text-[16px] font-semibold'>Địa chỉ liên hệ</span>
+                            <div className="text-[14px] font-medium text-gray-400 flex flex-col gap-y-2 leading-loose">
+                                <a href=""><span className='underline'>Văn phòng Hà Nội:</span> Tầng 3 Tòa nhà BMM, KM2, Đường Phùng Hưng, Phường Phúc La, Quận Hà Đông, TP Hà Nội Trung tâm vận hành Hà Nội: Lô C8, KCN Lại Yên, Xã Lại Yên, Huyện Hoài Đức, Thành phố Hà Nội</a>
+                                <a href=""><span className="underline">Văn phòng và Trung tâm vận hành TP. HCM:</span> Lô C3, đường D2, KCN Cát Lái, Thạnh Mỹ Lợi, TP. Thủ Đức, TP. Hồ Chí Minh.</a>
+                                <a href=""><span className="undeline">Trung tâm R&D:</span> Tầng 2, NXLP - 24, Khu The Manhattan - Vinhomes Grand Park, TP. Thủ Đức, TP. HCM</a>
                             </div>
                         </div>
                     </div>

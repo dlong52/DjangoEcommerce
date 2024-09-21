@@ -84,7 +84,6 @@ const Slider = () => {
                         onClick={handlePrev}
                         className="flex items-center justify-center bg-white w-[45px] aspect-square rounded-full border-[#33333371] border-[4px]"
                     >
-                        {/* <img className='h-[20px] rotate-180' src={left} alt="Previous slide" /> */}
                         <FontAwesomeIcon icon={faArrowLeft} />
                     </button>
                     <button
