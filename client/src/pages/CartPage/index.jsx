@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import {
   CartItem,
   EmptyCart,
@@ -10,7 +10,7 @@ import helpers from '../../utils/helper';
 import { COD, paypal } from '../../assets';
 import AddressForm from '../../components/AddressForm';
 import { updateUser as updateUserUi } from '../../redux/userSlice';
-import { createOrder } from '../../services/OrderServices';
+import { createOrder, createPayPalPayment, executePayment } from '../../services/OrderServices';
 import NotifyOrderSuccess from '../../components/NotifyOrderSuccess';
 
 const CartPage = () => {
@@ -22,7 +22,6 @@ const CartPage = () => {
     email: user?.email,
     address: user?.address,
   });
-  // Function to update the address in local state
   const updateAddressInState = (newAddress) => {
     setData((prevData) => ({
       ...prevData,
@@ -94,9 +93,17 @@ const CartPage = () => {
     setShowAddressForm(!showAddressForm);
   };
 
+  const handlePaymentWithPaypal = async (totalAmount, orderId) => {
+    try {
+      const paymentResponse = await createPayPalPayment(totalAmount/24000, orderId);
+
+      window.location.href = paymentResponse.approvalUrl;
+    } catch (error) {
+      console.error("Error creating PayPal payment:", error);
+    }
+  };
   const handleCreateOrder = async () => {
     try {
-      // Validation checks
       if (!data.username || !data.phone_number || !data.address) {
         alert("Vui lòng điền đầy đủ thông tin (Họ tên, Số điện thoại, Địa chỉ).");
         return;
@@ -108,18 +115,32 @@ const CartPage = () => {
       }
 
       const res = await createOrder(user?.user_id, paymentMethod, data.username, data.phone_number, data.address);
-      
-      if (res?.status == 'success') {
-        setOrderId(res?.data?.order_id)
-        queryCarts.refetch();
-        setSuccessOrder(true)
+
+      if (res?.status === 'success') {
+        if (paymentMethod === 'cod') {
+          setOrderId(res?.data?.order_id);
+          queryCarts.refetch();
+          setSuccessOrder(true);
+        } else if (paymentMethod === 'paypal') {
+          handlePaymentWithPaypal(Number(res?.data?.total_amount), res?.data?.order_id);
+        }
       }
-      // Optionally, clear the cart or redirect the user
     } catch (error) {
       console.error(error);
       alert("Đã xảy ra lỗi, vui lòng thử lại.");
     }
   };
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const paymentId = params.get('paymentId');
+    const payerId = params.get('PayerID');
+    const excutePaypal = async () => {
+      if (paymentId && payerId) {
+        await executePayment(paymentId, payerId);
+      }
+    }
+    excutePaypal()
+  });
   return (
     <div className='pb-[100px]'>
       {showAddressForm && <AddressForm
@@ -127,13 +148,13 @@ const CartPage = () => {
         showAddressForm={() => setShowAddressForm(!showAddressForm)}
         updateAddressInState={updateAddressInState} // Pass the function here
       />}
-      {successOrder && <NotifyOrderSuccess orderId={orderId} close={()=>{setSuccessOrder(false)}} />}
+      {successOrder && <NotifyOrderSuccess orderId={orderId} close={() => { setSuccessOrder(false) }} />}
       <div className="container m-auto py-6">
         <div className="grid grid-cols-12 gap-x-8">
           <div className="col-span-6 flex flex-col gap-y-6">
             <span className="font-bold text-[25px]">Thông tin đặt hàng</span>
             <div className="grid grid-cols-12 gap-6">
-              <div className="col-span-7">
+              <div className="col-span-5">
                 <label htmlFor="username" className='font-medium'>Họ tên:</label>
                 <input
                   id="username"
@@ -142,6 +163,7 @@ const CartPage = () => {
                   type="text"
                   value={data?.username}
                   onChange={handleInputChange}
+                  readOnly={true}
                 />
               </div>
               <div className="col-span-5">
@@ -153,6 +175,7 @@ const CartPage = () => {
                   type="text"
                   value={data?.phone_number}
                   onChange={handleInputChange}
+                  readOnly={true}
                 />
               </div>
               <div className="col-span-12">

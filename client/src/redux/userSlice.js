@@ -11,7 +11,6 @@ const initialState = {
     role: "",
     isLoading: false,
 }
-
 export const userSlide = createSlice({
     name: 'user',
     initialState,

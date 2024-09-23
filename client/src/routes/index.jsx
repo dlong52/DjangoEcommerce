@@ -26,6 +26,7 @@ import OrderDetailAdminPage from "../Admin/OrderDetailAdminPage"
 import UserDetailAdminPage from "../Admin/UserDetailAdminPage"
 import ProductDetailAdminPage from "../Admin/ProductDetailAdminPage"
 import OrderDetailPage from "../pages/OrderDetailPage"
+import SearchPage from "../pages/SearchPage"
 
 const publicRoutes = [
     {
@@ -35,6 +36,10 @@ const publicRoutes = [
     {
         path: "/shop",
         component: ShopPage
+    },
+    {
+        path: "/search",
+        component: SearchPage
     },
     {
         path: "/shop/:p_id",
@@ -134,24 +139,24 @@ const headerRoutes = [
         name: "FLASH SALE",
     },
     {
-        path: "/shop",
+        path: "/shop#",
         name: `Tất cả sản phẩm`,
         dropdown: true,
     },
     {
-        path: "/shop#category=activewear",
+        path: "/shop#category=2",
         name: "Đồ thể thao",
     },
     {
-        path: "/shop#category=casual",
+        path: "/shop#category=1",
         name: "Mặc hàng ngày",
     },
     {
-        path: "/shop#category=underwear",
+        path: "/shop#category=3",
         name: "Đồ lót",
     },
     {
-        path: "",
+        path: "/shop#category=4",
         name: "Nước hoa",
     },
 ]

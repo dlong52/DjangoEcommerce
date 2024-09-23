@@ -62,5 +62,4 @@ const ProfileLayout = ({ children }) => {
         </div>
     );
 };
-
 export default ProfileLayout;

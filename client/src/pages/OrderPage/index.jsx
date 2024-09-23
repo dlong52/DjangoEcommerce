@@ -38,6 +38,7 @@ const OrderPage = () => {
   const updateData = () => {
     orderByUserQuery.refetch();
   };
+console.log(  Number(orderByUserQuery?.data[0].total_amount))
 
   return (
     <div className="bg-white shadow-md rounded-lg p-6">

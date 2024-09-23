@@ -40,11 +40,11 @@ const HomePageAdmin = () => {
     const currentYear = new Date().getFullYear();
     let totalRevenue = 0;
 
-    orders.forEach(order => {
+    orders?.forEach(order => {
       const orderDate = new Date(order.order_date);
       if (orderDate.getFullYear() === currentYear && orderDate.getMonth() === currentMonth) {
         const day = orderDate.getDate();
-        const amount = parseFloat(order.total_amount);
+        const amount = Number(order?.total_amount);
         dailyRevenue[day - 1] += amount;
         totalRevenue += amount; // Accumulate total revenue
       }
@@ -53,7 +53,8 @@ const HomePageAdmin = () => {
     return { dailyRevenue, totalRevenue }; // Return both daily revenue and total revenue
   };
 
-  const { dailyRevenue, totalRevenue } = data ? calculateDailyRevenue(data.results) : { dailyRevenue: Array(31).fill(0), totalRevenue: 0 };
+  const { dailyRevenue, totalRevenue } = data ? calculateDailyRevenue(data?.results) : { dailyRevenue: Array(31).fill(0), totalRevenue: 0 };
+console.log(data?.results);
 
   return (
     <div className='px-6 py-6'>

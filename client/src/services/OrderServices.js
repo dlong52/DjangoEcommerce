@@ -37,6 +37,20 @@ const updateOrderStatus = async (order_id, new_status, payment_status ) => {
     });
     return res.data;
 }
+const createPayPalPayment = async (total_amount, order_id) => {
+    const res = await axios.post(`${import.meta.env.VITE_API}/payment/create/`, {
+        total_amount,
+        order_id,
+    });
+    return res.data;
+};
+const executePayment = async (paymentId, payerId) => {
+    const response = await axios.post(`${import.meta.env.VITE_API}/payment/execute/`, {
+        paymentId,
+        payerId,
+    });
+    return response.data;
+};
 
 
 export {
@@ -44,5 +58,7 @@ export {
     getAllOrder,
     getAllOrderByUser,
     getOrderDetail,
-    updateOrderStatus
+    updateOrderStatus,
+    createPayPalPayment,
+    executePayment
 }

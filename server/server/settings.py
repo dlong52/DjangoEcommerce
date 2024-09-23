@@ -43,7 +43,8 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
     'rest_framework_simplejwt',
     'django_filters',
-    'corsheaders',
+    'corsheaders',    
+    'paypalrestsdk',
     
     'cart',
     'categories',
@@ -51,6 +52,7 @@ INSTALLED_APPS = [
     'orders',
     'user',
     'collection',
+    'paypal',
 ]
 
 MIDDLEWARE = [
@@ -58,7 +60,7 @@ MIDDLEWARE = [
     'django.contrib.sessions.middleware.SessionMiddleware',
     'corsheaders.middleware.CorsMiddleware',  # Thêm dòng này
     'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
+    # 'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
@@ -142,6 +144,15 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
+# settings.py
+
+import paypalrestsdk
+
+paypalrestsdk.configure({
+    "mode": "sandbox",  # "sandbox" or "live"
+    "client_id": "AQgr_tXJRtvoFtUWTvWzqM1xygq5EYDvmAkDVq1O9A8jAshoPLwXyc9LL4VNClHZU9aJRrp-azS_tGhF",
+    "client_secret": "EMoS1Izf29U2r_514Fb7YoYUE0k5MfB5Bf-DDxX711YXJARY5g2hXt2XIIoIkTimDPY7x6T-tMsObIpd"
+})
 
 # SIMPLE_JWT = {
 #     'AUTH_HEADER_TYPES': ('Bearer',),
@@ -176,7 +187,8 @@ TIME_ZONE = 'UTC'
 USE_I18N = True
 
 USE_TZ = True
-
+PAYPAL_RECEIVER_EMAIL = 'dlong.work23@gmail.com' # where cash is paid into
+PAYPAL_TEST = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/

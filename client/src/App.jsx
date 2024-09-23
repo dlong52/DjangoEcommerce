@@ -22,7 +22,7 @@ function App() {
     if (decoded?.user_id) {
       handleGetUserDetails(decoded?.user_id, storageData);
     } else {
-      setLoading(false); 
+      setLoading(false);
     }
   }, []);
   UserService.axiosJwt.interceptors.request.use(async (config) => {
@@ -36,16 +36,16 @@ function App() {
   }, (error) => {
     return Promise.reject(error);
   });
- 
+
   const handleGetUserDetails = async (id, token) => {
     try {
       const res = await UserService.getDetailUser(id, token);
       dispatch(updateUser({ ...res, accessToken: token }));
     } catch (error) {
       console.error(error);
-      dispatch(updateUser(null)); 
+      dispatch(updateUser(null));
     } finally {
-      setLoading(false); 
+      setLoading(false);
     }
   };
   const handleDecode = () => {
@@ -58,7 +58,7 @@ function App() {
     return { decoded, storageData }
   }
   if (loading) {
-    return <LoadingPage />; 
+    return <LoadingPage />;
   }
   return (
     <>

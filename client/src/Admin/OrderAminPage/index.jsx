@@ -127,7 +127,7 @@ const OrderAdminPage = () => {
               </tr>
             </thead>
             <tbody>
-              {data?.results?.map((order) => (
+              {data?.results?.reverse().map((order) => (
                 <tr key={order.order_id} className='hover:bg-gray-100 transition-colors'>
                   <td className='p-4 text-base font-medium text-blue-800 whitespace-nowrap'>
                     <a href={`/admin/order/${order?.order_id}`} className='hover:underline'>

@@ -54,7 +54,7 @@ const updateUser = async (id, data) => {
 }
 
 const refreshToken = async () => {
-    const res = await axios.post(`${import.meta.env.VITE_API}/user/refresh-token`,document.cookie, {
+    const res = await axios.post(`${import.meta.env.VITE_API}/user/refresh_token`,document.cookie, {
         withCredentials: true,
     })
     console.log("response from server", res);
